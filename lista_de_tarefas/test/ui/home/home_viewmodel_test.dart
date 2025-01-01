@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lista_de_tarefas/domain/models/task.dart';
-import 'package:lista_de_tarefas/ui/home/view_models/home_viewmodel.dart';
+import 'package:lista_de_tarefas/ui/list/view_models/list_viewmodels.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

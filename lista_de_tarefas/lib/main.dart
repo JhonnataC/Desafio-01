@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas/routing/router.dart';
+import 'package:lista_de_tarefas/ui/core/theme/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,21 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: ListaDeTarefasApp(),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      routerConfig: router,
     );
-  }
-}
-
-class ListaDeTarefasApp extends StatelessWidget {
-  const ListaDeTarefasApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
