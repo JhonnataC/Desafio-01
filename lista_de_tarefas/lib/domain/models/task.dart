@@ -19,6 +19,9 @@ class Task {
 
   factory Task.fromMap(Map<String, dynamic> map) {
     return Task(
-        id: map['id'], taskText: map['taskText'], isDone: map['isDone']);
+      id: map['id'],
+      taskText: map['taskText'],
+      isDone: map['isDone'],
+    );
   }
 }

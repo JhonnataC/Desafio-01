@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
@@ -5,7 +7,11 @@ import 'package:lista_de_tarefas/data/services/local_data_service.dart';
 import 'package:lista_de_tarefas/domain/models/task.dart';
 import 'package:uuid/uuid.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class ListViewModel extends ChangeNotifier {
+  final String groupId;
+
+  ListViewModel({required this.groupId});
+
   final Uuid _uuid = Uuid();
   List<Task> _taskList = [];
 
@@ -49,13 +55,15 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _saveTasks() {
-    LocalDataService.saveTasksToLocalStorage(_taskList);
+  void _saveTasks() async {
+    await LocalDataService.saveTaskListToGroupInLocalStorage(
+        groupId, _taskList);
   }
 
   // Carrega as tasks para _taskList
   Future<void> loadTasks() async {
-    _taskList = await LocalDataService.loadTasksFromLocalStorage();
+    _taskList =
+        await LocalDataService.loadTasksFromGroupInLocalStorage(groupId);
     notifyListeners();
   }
 }

@@ -2,33 +2,62 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:lista_de_tarefas/data/services/local_data_service.dart';
-import 'package:lista_de_tarefas/domain/models/task.dart';
+import 'package:lista_de_tarefas/domain/models/task_group.dart';
 
 class ChartViewModel extends ChangeNotifier {
-  List<Task> _taskList = [];
+  List<TaskGroup> _taskGroups = [];
 
-  UnmodifiableListView<Task> get taskList => UnmodifiableListView(_taskList);
+  UnmodifiableListView<TaskGroup> get taskGroups =>
+      UnmodifiableListView(_taskGroups);
 
-  int get totalTasks => _taskList.length;
+  int get totalTasks =>
+      _taskGroups.fold(0, (sum, group) => sum + group.tasks.length);
 
-  int get completedTasks {
-    int counter = 0;
-    for (var task in _taskList) {
-      if (task.isDone == true) counter++;
+  Map<String, int> get completedAndPendingTasks {
+    int complete = 0;
+    int pending = 0;
+
+    for (var taskGroup in _taskGroups) {
+      for (var task in taskGroup.tasks) {
+        if (task.isDone) {
+          complete++;
+        } else {
+          pending++;
+        }
+      }
     }
-    return counter;
+    return {'complete': complete, 'pending': pending};
   }
 
-  int get pendingTasks {
-    int counter = 0;
-    for (var task in _taskList) {
-      if (task.isDone == false) counter++;
+  int totalGroupTasks(String groupId) {
+    for (var taskGroup in _taskGroups) {
+      if (taskGroup.id == groupId) {
+        return taskGroup.tasks.length;
+      }
     }
-    return counter;
+    return 0;
   }
 
-  void loadTasks() async {
-    _taskList = await LocalDataService.loadTasksFromLocalStorage();
+  Map<String, int> completedAndPendingGroupTasks(String groupId) {
+    int complete = 0;
+    int pending = 0;
+
+    for (var taskGroup in _taskGroups) {
+      if (taskGroup.id == groupId) {
+        for (var task in taskGroup.tasks) {
+          if (task.isDone) {
+            complete++;
+          } else {
+            pending++;
+          }
+        }
+      }
+    }
+    return {'complete': complete, 'pending': pending};
+  }
+
+  Future<void> loadTaskGroups() async {
+    _taskGroups = await LocalDataService.loadTaskGroupsFromLocalStorage();
     notifyListeners();
   }
 }

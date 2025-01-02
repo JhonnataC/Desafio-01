@@ -3,25 +3,35 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lista_de_tarefas/data/services/local_data_service.dart';
 import 'package:lista_de_tarefas/domain/models/task.dart';
+import 'package:lista_de_tarefas/domain/models/task_group.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  late List<Task> taskList;
+  late List<TaskGroup> taskGroups;
+
+  setUp(
+    () {
+      SharedPreferences.setMockInitialValues({});
+
+      taskList = [
+        Task(id: '1', taskText: 'estudar matematica'),
+        Task(id: '2', taskText: 'estudar historia'),
+      ];
+
+      taskGroups = [
+        TaskGroup(id: '1', name: 'escola', tasks: taskList),
+      ];
+    },
+  );
+
   group(
     'Testes de LocalDataService',
     () {
       test(
-        'Deve salvar uma lista de tasks no armazenamento local',
+        'Deve salvar uma lista de grupos de tarefa no armazenamento local',
         () async {
-          SharedPreferences.setMockInitialValues({});
-
-          final List<Task> taskList = [
-            Task(id: '1', taskText: 'fazer compras'),
-            Task(id: '2', taskText: 'verificar email'),
-            Task(id: '3', taskText: 'ir ao correio'),
-            Task(id: '4', taskText: 'comprar fone'),
-          ];
-
-          await LocalDataService.saveTasksToLocalStorage(taskList);
+          await LocalDataService.saveTaskGroupsToLocalStorage(taskGroups);
 
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           final savedJson =
@@ -29,34 +39,58 @@ void main() {
 
           expect(savedJson, isNotNull);
 
-          final List<dynamic> tasksMapList = jsonDecode(savedJson!);
+          final List<dynamic> taskGroupsMapList = jsonDecode(savedJson!);
 
-          tasksMapList.map((taskMap) => Task.fromMap(taskMap)).toList();
-
-          expect(tasksMapList.length, taskList.length);
-          expect(tasksMapList[0]['taskText'], 'fazer compras');
-          expect(tasksMapList[3]['taskText'], 'comprar fone');
+          expect(taskGroupsMapList.length, taskGroups.length);
+          expect(taskGroupsMapList[0]['name'], 'escola');
+          expect(taskGroupsMapList[0]['tasks'].length, 2);
         },
       );
 
       test(
-        'Deve carregar uma lista de tasks salvas localmente',
+        'Deve salvar uma lista de tasks em um grupo no armazenamento local',
         () async {
-          SharedPreferences.setMockInitialValues({});
+          await LocalDataService.saveTaskGroupsToLocalStorage(taskGroups);
 
           final List<Task> taskList = [
-            Task(id: '1', taskText: 'fazer compras'),
-            Task(id: '2', taskText: 'verificar email'),
+            Task(id: '1', taskText: 'estudar matematica'),
+            Task(id: '2', taskText: 'estudar historia'),
+            Task(id: '3', taskText: 'lição de quimica'),
           ];
 
-          await LocalDataService.saveTasksToLocalStorage(taskList);
+          taskGroups.first.tasks = taskList;
 
-          final loadedTasks =
-              await LocalDataService.loadTasksFromLocalStorage();
+          final groupId = taskGroups.first.id;
+          final tasks = taskGroups.first.tasks;
 
-          expect(loadedTasks.length, 2);
-          expect(loadedTasks[0].taskText, 'fazer compras');
-          expect(loadedTasks[1].taskText, 'verificar email');
+          await LocalDataService.saveTaskListToGroupInLocalStorage(
+              groupId, tasks);
+
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          final savedJson =
+              prefs.getString(LocalDataService.localDataServiceKey);
+
+          expect(savedJson, isNotNull);
+
+          final List<dynamic> taskGroupsMapList = jsonDecode(savedJson!);
+
+          expect(taskGroupsMapList.length, taskGroups.length);
+          expect(taskGroupsMapList.first['name'], 'escola');
+          expect(taskGroupsMapList.first['tasks'].length, 3);
+        },
+      );
+
+      test(
+        'Deve carregar uma lista grupos salvos localmente',
+        () async {
+          await LocalDataService.saveTaskGroupsToLocalStorage(taskGroups);
+
+          final loadedTaskGroups =
+              await LocalDataService.loadTaskGroupsFromLocalStorage();
+
+          expect(loadedTaskGroups.length, taskGroups.length);
+          expect(loadedTaskGroups[0].name, 'escola');
+          expect(loadedTaskGroups[0].tasks.length, 2);
         },
       );
 
@@ -65,10 +99,10 @@ void main() {
         () async {
           SharedPreferences.setMockInitialValues({});
 
-          final loadedTasks =
-              await LocalDataService.loadTasksFromLocalStorage();
+          final loadedTaskGroups =
+              await LocalDataService.loadTaskGroupsFromLocalStorage();
 
-          expect(loadedTasks, isEmpty);
+          expect(loadedTaskGroups, isEmpty);
         },
       );
 
@@ -79,10 +113,27 @@ void main() {
             LocalDataService.localDataServiceKey: 'json inválido',
           });
 
-          final loadedTasks =
-              await LocalDataService.loadTasksFromLocalStorage();
+          final loadedTaskGroups =
+              await LocalDataService.loadTaskGroupsFromLocalStorage();
 
-          expect(loadedTasks, isEmpty);
+          expect(loadedTaskGroups, isEmpty);
+        },
+      );
+
+      test(
+        'Deve retornar uma lista de tasks a partir do id de um grupo',
+        () async {
+          await LocalDataService.saveTaskGroupsToLocalStorage(taskGroups);
+
+          final loadedTaskGroups =
+              await LocalDataService.loadTaskGroupsFromLocalStorage();
+          final groupId = loadedTaskGroups.first.id;
+
+          final loadedTaskList =
+              await LocalDataService.loadTasksFromGroupInLocalStorage(groupId);
+
+          expect(loadedTaskList.length, 2);
+          expect(loadedTaskList.first.taskText, 'estudar matematica');
         },
       );
     },

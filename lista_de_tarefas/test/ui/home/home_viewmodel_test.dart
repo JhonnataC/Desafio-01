@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lista_de_tarefas/data/services/local_data_service.dart';
 import 'package:lista_de_tarefas/domain/models/task.dart';
-import 'package:lista_de_tarefas/ui/list/view_models/list_viewmodels.dart';
+import 'package:lista_de_tarefas/domain/models/task_group.dart';
+import 'package:lista_de_tarefas/ui/home/view_models/home_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -16,74 +16,65 @@ void main() {
   );
 
   group(
-    'Testes da home view model',
+    'Teste da home view model',
     () {
       test(
-        'Deve adicionar uma nova task na variável da view model',
+        'Deve adicionar um grupo de tasks na variavel da view model',
         () {
-          homeViewModel.addTask('fazer compras');
+          homeViewModel.addTaskGroup('escola');
+          homeViewModel.addTaskGroup('trabalho');
 
-          expect(homeViewModel.taskList.length, 1);
-          expect(homeViewModel.taskList.first.taskText, 'fazer compras');
-          expect(homeViewModel.taskList.first.isDone, false);
+          expect(homeViewModel.taskGroups.length, 2);
+          expect(homeViewModel.taskGroups.first.name, 'escola');
+          expect(homeViewModel.taskGroups.last.name, 'trabalho');
         },
       );
 
       test(
-        'Deve alternar o status da uma task',
+        'Deve editar um grupo de tasks',
         () {
-          homeViewModel.addTask('fazer compras');
-          final taskId = homeViewModel.taskList.first.id;
+          homeViewModel.addTaskGroup('escola');
+          final groupId = homeViewModel.taskGroups.first.id;
 
-          homeViewModel.toggleTaskStatus(taskId);
-          expect(homeViewModel.taskList.first.isDone, true);
+          homeViewModel.editTaskGroup(groupId, 'estudos');
 
-          homeViewModel.toggleTaskStatus(taskId);
-          expect(homeViewModel.taskList.first.isDone, false);
+          expect(homeViewModel.taskGroups.first.name, 'estudos');
         },
       );
 
       test(
-        'Deve editar uma task da lista de tasks',
+        'Deve remover um grupo de tasks',
         () {
-          homeViewModel.addTask('estudar');
-          final taskId = homeViewModel.taskList.first.id;
+          homeViewModel.addTaskGroup('estudos');
+          final groupId = homeViewModel.taskGroups.first.id;
 
-          homeViewModel.editTask(taskId, 'fazer compras');
+          homeViewModel.deleteTaskGroup(groupId);
 
-          expect(homeViewModel.taskList.first.taskText, 'fazer compras');
-          expect(homeViewModel.taskList.first.isDone, false);
-          expect(homeViewModel.taskList.first.id, taskId);
+          expect(homeViewModel.taskGroups, isEmpty);
         },
       );
 
       test(
-        'Deve deletar uma task da lista de tasks',
-        () {
-          homeViewModel.addTask('fazer compras');
-          final taskId = homeViewModel.taskList.first.id;
-
-          homeViewModel.deleteTask(taskId);
-          expect(
-              homeViewModel.taskList.any((task) => task.id == taskId), false);
-          expect(homeViewModel.taskList, isEmpty);
-        },
-      );
-
-      test(
-        'Deve carregar as tasks do armazenamento local para a variável da view model',
+        'Deve carregar os grupos de tasks na variavel da view model',
         () async {
-          final mockTasks = [
-            Task(id: '1', taskText: 'fazer compras', isDone: false).toMap(),
-            Task(id: '2', taskText: 'estudar', isDone: true).toMap(),
+          SharedPreferences.setMockInitialValues({});
+
+          final List<Task> taskList = [
+            Task(id: '1', taskText: 'estudar matematica'),
+            Task(id: '2', taskText: 'estudar historia'),
           ];
 
-          SharedPreferences.setMockInitialValues({
-            'tasks': jsonEncode(mockTasks),
-          });
+          final List<TaskGroup> taskGroups = [
+            TaskGroup(id: '1', name: 'escola', tasks: taskList),
+          ];
 
-          await homeViewModel.loadTasks();
-          expect(homeViewModel.taskList.length, 2);
+          await LocalDataService.saveTaskGroupsToLocalStorage(taskGroups);
+
+          await homeViewModel.loadTaskGroups();
+
+          expect(homeViewModel.taskGroups, isNotEmpty);
+          expect(homeViewModel.taskGroups.first.name, 'escola');
+          expect(homeViewModel.taskGroups.first.tasks.length, 2);
         },
       );
     },

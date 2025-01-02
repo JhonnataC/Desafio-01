@@ -14,6 +14,7 @@ class AppColors {
         onPrimary: white1,
         secondary: purple2,
         onSecondary: white1,
+        tertiary: white2,
         surface: white1,
       );
 
