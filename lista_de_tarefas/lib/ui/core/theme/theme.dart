@@ -3,29 +3,58 @@ import 'package:lista_de_tarefas/ui/core/theme/colors.dart';
 
 class AppTheme {
   static final _textTheme = ThemeData().textTheme.copyWith(
-        headlineLarge: TextStyle(
+        headlineLarge: const TextStyle(
           fontFamily: 'Poppins',
           fontWeight: FontWeight.w700,
+          fontSize: 20,
+        ),
+        headlineMedium: const TextStyle(
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w500,
           fontSize: 26,
         ),
-        headlineSmall: TextStyle(
+        headlineSmall: const TextStyle(
           fontFamily: 'OpenSans',
           fontWeight: FontWeight.w300,
-          fontSize: 21,
+          fontSize: 14,
         ),
-        bodyLarge: TextStyle(
+        titleLarge: const TextStyle(
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w700,
+          fontSize: 18,
+        ),
+        titleMedium: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 15,
+        ),
+        bodyLarge: const TextStyle(
           fontFamily: 'OpenSans',
-          fontSize: 16,
+          fontWeight: FontWeight.w700,
+          fontSize: 15,
+        ),
+        bodyMedium: const TextStyle(
+          fontFamily: 'OpenSans',
+          fontSize: 15,
+        ),
+        bodySmall: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
+        labelLarge: TextStyle(
+          fontFamily: 'OpenSans',
+          fontSize: 12,
+          color: Colors.white.withValues(alpha: 0.2),
         ),
       );
 
   static final _appBarTheme = ThemeData().appBarTheme.copyWith(
         titleTextStyle: TextStyle(),
-        color: AppColors.purple1,
+        color: AppColors.blue,
       );
 
   static ThemeData lightTheme = ThemeData().copyWith(
-    colorScheme: AppColors.lightColorScheme,
+    colorScheme: AppColors.darkColorScheme,
     appBarTheme: _appBarTheme,
     textTheme: _textTheme,
   );

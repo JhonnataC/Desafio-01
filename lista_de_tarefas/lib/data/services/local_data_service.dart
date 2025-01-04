@@ -9,7 +9,6 @@ class LocalDataService {
 
   static Future<void> saveTaskGroupsToLocalStorage(
       List<TaskGroup> taskGroupList) async {
-    if (taskGroupList.isEmpty) return;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
