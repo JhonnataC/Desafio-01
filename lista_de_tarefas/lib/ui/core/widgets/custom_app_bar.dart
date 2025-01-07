@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+  final Widget? action;
+  const CustomAppBar({super.key, this.action});
 
   @override
   AppBar build(BuildContext context) {
@@ -11,6 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: theme.primary,
       surfaceTintColor: theme.primary,
+      foregroundColor: theme.onPrimary,
       title: Image.asset(
         'assets/imgs/logo.png',
         width: 90,
@@ -18,19 +19,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 10, top: 8),
-          child: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              LucideIcons.filter,
-              color: theme.onPrimary,
-              size: 20,
-            ),
-          ),
+          child: action,
         ),
       ],
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56);
 }

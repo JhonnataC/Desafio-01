@@ -1,21 +1,22 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:lista_de_tarefas/ui/core/widgets/form.dart';
+import 'package:lista_de_tarefas/ui/core/widgets/custom_form.dart';
 
-class ShowFormDialog extends StatelessWidget {
+class ShowFormDialogHome extends StatelessWidget {
   final String? editValue;
+  final double bottomDistance;
   final Function(String) onSubmit;
 
-  const ShowFormDialog({
+  const ShowFormDialogHome({
     super.key,
     this.editValue,
     required this.onSubmit,
+    required this.bottomDistance,
   });
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Stack(
       children: [
         BackdropFilter(
@@ -25,7 +26,7 @@ class ShowFormDialog extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: bottomInset,
+          bottom: bottomDistance,
           child: Dialog(
             backgroundColor: Colors.transparent,
             insetPadding: EdgeInsets.zero,

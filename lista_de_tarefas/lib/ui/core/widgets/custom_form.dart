@@ -41,7 +41,7 @@ class _CustomFormState extends State<CustomForm> {
       context.pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
           content: Text(
             widget.editValue == null ? 'Adicionado!' : 'Editado!',
             style: Theme.of(context).textTheme.bodyLarge,
@@ -69,10 +69,10 @@ class _CustomFormState extends State<CustomForm> {
               child: Text(widget.title, style: theme.textTheme.titleLarge),
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: theme.colorScheme.surface,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                 ),
@@ -87,7 +87,7 @@ class _CustomFormState extends State<CustomForm> {
                       SizedBox(
                         width: width * 0.7,
                         child: TextFormField(
-                          autofocus: true,
+                          autofocus: true,                          
                           controller: _nameController,
                           decoration: InputDecoration(
                             hintText: 'Digite aqui...',
@@ -98,10 +98,11 @@ class _CustomFormState extends State<CustomForm> {
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide.none,
                             ),
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 12),
                           ),
                           cursorColor: theme.colorScheme.onPrimary,
+                          onFieldSubmitted: (_) => submitForm(),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Escreva alguma coisa';
@@ -112,7 +113,7 @@ class _CustomFormState extends State<CustomForm> {
                       ),
                       IconButton(
                         onPressed: () => context.pop(),
-                        icon: Icon(LucideIcons.x),
+                        icon: const Icon(LucideIcons.x),
                       ),
                     ],
                   ),

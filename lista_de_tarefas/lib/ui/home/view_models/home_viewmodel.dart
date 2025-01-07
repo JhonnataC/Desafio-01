@@ -6,7 +6,7 @@ import 'package:lista_de_tarefas/domain/models/task_group.dart';
 import 'package:uuid/uuid.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  final Uuid _uuid = Uuid();
+  final Uuid _uuid = const Uuid();
   List<TaskGroup> _taskGroups = [];
 
   UnmodifiableListView<TaskGroup> get taskGroups =>

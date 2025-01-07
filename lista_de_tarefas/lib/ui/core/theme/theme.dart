@@ -25,6 +25,11 @@ class AppTheme {
         ),
         titleMedium: const TextStyle(
           fontFamily: 'Poppins',
+          fontWeight: FontWeight.w700,
+          fontSize: 15,
+        ),
+        titleSmall: const TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 15,
         ),
         bodyLarge: const TextStyle(
@@ -37,7 +42,7 @@ class AppTheme {
           fontSize: 15,
         ),
         bodySmall: const TextStyle(
-          color: Colors.white,
+          color: AppColors.white,
           fontSize: 12,
           fontWeight: FontWeight.w500,
         ),
@@ -46,10 +51,15 @@ class AppTheme {
           fontSize: 12,
           color: Colors.white.withValues(alpha: 0.2),
         ),
+        labelMedium: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 9,
+          color: AppColors.white,
+        ),        
       );
 
   static final _appBarTheme = ThemeData().appBarTheme.copyWith(
-        titleTextStyle: TextStyle(),
+        titleTextStyle: const TextStyle(),
         color: AppColors.blue,
       );
 

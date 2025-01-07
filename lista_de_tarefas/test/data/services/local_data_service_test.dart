@@ -129,11 +129,11 @@ void main() {
               await LocalDataService.loadTaskGroupsFromLocalStorage();
           final groupId = loadedTaskGroups.first.id;
 
-          final loadedTaskList =
+          final loadedTasks =
               await LocalDataService.loadTasksFromGroupInLocalStorage(groupId);
 
-          expect(loadedTaskList.length, 2);
-          expect(loadedTaskList.first.taskText, 'estudar matematica');
+          expect(loadedTasks['groupName'], 'escola');
+          expect(loadedTasks['tasks'].first.taskText, 'estudar matematica');
         },
       );
     },

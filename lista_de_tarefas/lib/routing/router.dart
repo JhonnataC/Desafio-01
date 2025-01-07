@@ -19,9 +19,9 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: Routes.list,
       builder: (context, state) {
-        final id = state.pathParameters['groupId']!;
+        final groupId = state.pathParameters['groupId']!;
 
-        ListViewModel listViewModel = ListViewModel(groupId: id);
+        ListViewModel listViewModel = ListViewModel(groupId);
 
         return ListScreen(
           listViewModel: listViewModel,

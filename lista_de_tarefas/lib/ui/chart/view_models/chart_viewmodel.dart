@@ -10,12 +10,13 @@ class ChartViewModel extends ChangeNotifier {
   UnmodifiableListView<TaskGroup> get taskGroups =>
       UnmodifiableListView(_taskGroups);
 
-  int get totalTasks =>
+  double get totalTasks =>
       _taskGroups.fold(0, (sum, group) => sum + group.tasks.length);
 
-  Map<String, int> get completedAndPendingTasks {
-    int complete = 0;
-    int pending = 0;
+  //Retorna o número total de tasks completas e pendentes 
+  Map<String, double> get completedAndPendingTasks {
+    double complete = 0;
+    double pending = 0;
 
     for (var taskGroup in _taskGroups) {
       for (var task in taskGroup.tasks) {
@@ -29,18 +30,20 @@ class ChartViewModel extends ChangeNotifier {
     return {'complete': complete, 'pending': pending};
   }
 
-  int totalGroupTasks(String groupId) {
+  //Retorna o total de tasks de um grupo
+  double totalGroupTasks(String groupId) {
     for (var taskGroup in _taskGroups) {
       if (taskGroup.id == groupId) {
-        return taskGroup.tasks.length;
+        return taskGroup.tasks.length.toDouble();
       }
     }
     return 0;
   }
 
-  Map<String, int> completedAndPendingGroupTasks(String groupId) {
-    int complete = 0;
-    int pending = 0;
+  //Retorna as tasks completas e pendentes de um grupo
+  Map<String, double> completedAndPendingGroupTasks(String groupId) {
+    double complete = 0;
+    double pending = 0;
 
     for (var taskGroup in _taskGroups) {
       if (taskGroup.id == groupId) {

@@ -26,7 +26,7 @@ class DateAndScreenTitle extends StatelessWidget {
             today,
             style: theme.headlineSmall,
           ),
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           Text(
             title,
             style: theme.headlineLarge,

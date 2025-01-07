@@ -3,12 +3,12 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final String label;
-  final void Function()? onPressed;
+  final void Function() onPressed;
 
   const CustomFloatingActionButton({
     super.key,
     required this.label,
-    this.onPressed,
+    required this.onPressed,
   });
 
   @override
@@ -22,7 +22,7 @@ class CustomFloatingActionButton extends StatelessWidget {
         color: theme.colorScheme.onPrimary,
       ),
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         backgroundColor: theme.colorScheme.secondary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),

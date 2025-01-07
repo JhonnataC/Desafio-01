@@ -3,14 +3,15 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_tarefas/domain/models/task_group.dart';
+import 'package:lista_de_tarefas/ui/core/widgets/check.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-class CustomListTile extends StatefulWidget {
+class ListTileHome extends StatefulWidget {
   final TaskGroup taskGroup;
   final void Function() onEdit;
   final void Function() onDelete;
 
-  const CustomListTile({
+  const ListTileHome({
     super.key,
     required this.taskGroup,
     required this.onEdit,
@@ -18,10 +19,10 @@ class CustomListTile extends StatefulWidget {
   });
 
   @override
-  State<CustomListTile> createState() => _CustomListTileState();
+  State<ListTileHome> createState() => _ListTileHomeState();
 }
 
-class _CustomListTileState extends State<CustomListTile> {
+class _ListTileHomeState extends State<ListTileHome> {
   late Map<String, int> taskInfo;
 
   Map<String, int> get completedAndTotalTasks {
@@ -31,7 +32,6 @@ class _CustomListTileState extends State<CustomListTile> {
     for (var task in widget.taskGroup.tasks) {
       if (task.isDone) {
         complete++;
-        continue;
       }
       total++;
     }
@@ -53,7 +53,7 @@ class _CustomListTileState extends State<CustomListTile> {
       child: Slidable(
         key: ValueKey(widget.taskGroup.id),
         endActionPane: ActionPane(
-          motion: DrawerMotion(),
+          motion: const DrawerMotion(),
           children: [
             SlidableAction(
               onPressed: (_) => widget.onEdit(),
@@ -84,16 +84,13 @@ class _CustomListTileState extends State<CustomListTile> {
             onTap: () => context.push('/list/${widget.taskGroup.id}'),
             leading: (taskInfo['complete'] == taskInfo['total'] &&
                     taskInfo['total'] != 0)
-                ? Icon(
-                    LucideIcons.checkCircle,
-                    color: theme.colorScheme.secondary,
-                  )
-                : Icon(
+                ? const Check()
+                : const Icon(
                     LucideIcons.circle,
                   ),
             title: Text(
               toBeginningOfSentenceCase(widget.taskGroup.name),
-              style: theme.textTheme.titleMedium,
+              style: theme.textTheme.titleSmall,
             ),
             trailing: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

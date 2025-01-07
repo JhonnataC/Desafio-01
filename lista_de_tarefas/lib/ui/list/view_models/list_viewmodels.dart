@@ -8,11 +8,12 @@ import 'package:lista_de_tarefas/domain/models/task.dart';
 import 'package:uuid/uuid.dart';
 
 class ListViewModel extends ChangeNotifier {
-  final String groupId;
+  final String _groupId;
 
-  ListViewModel({required this.groupId});
+  ListViewModel(this._groupId);
 
-  final Uuid _uuid = Uuid();
+  final Uuid _uuid = const Uuid();
+  String groupName = '';
   List<Task> _taskList = [];
 
   UnmodifiableListView<Task> get taskList => UnmodifiableListView(_taskList);
@@ -55,15 +56,35 @@ class ListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _saveTasks() async {
-    await LocalDataService.saveTaskListToGroupInLocalStorage(
-        groupId, _taskList);
+  // Carrega as tasks para _taskList
+  Future<void> loadTasksFromGroup() async {
+    final Map<String, dynamic> loadedTasks =
+        await LocalDataService.loadTasksFromGroupInLocalStorage(_groupId);
+    groupName = loadedTasks['groupName'];
+    _taskList = loadedTasks['tasks'];
+    notifyListeners();
   }
 
-  // Carrega as tasks para _taskList
-  Future<void> loadTasks() async {
-    _taskList =
-        await LocalDataService.loadTasksFromGroupInLocalStorage(groupId);
+  void _saveTasks() async {
+    await LocalDataService.saveTaskListToGroupInLocalStorage(
+        _groupId, _taskList);
+  }
+
+  void sortList() {
+    if (_taskList.first.isDone) {
+      _taskList.sort((a, b) => a.isDone == b.isDone
+          ? 0
+          : a.isDone
+              ? 1
+              : -1);
+    } else {
+      _taskList.sort((a, b) => a.isDone == b.isDone
+          ? 0
+          : !a.isDone
+              ? 1
+              : -1);
+    }
+    _saveTasks();
     notifyListeners();
   }
 }

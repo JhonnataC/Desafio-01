@@ -17,7 +17,7 @@ void main() {
         TaskGroup(id: '1', name: 'escola', tasks: []),
       ];
 
-      listViewModel = ListViewModel(groupId: taskGroups.first.id);
+      listViewModel = ListViewModel(taskGroups.first.id);
     },
   );
 
@@ -88,11 +88,38 @@ void main() {
 
           await LocalDataService.saveTaskGroupsToLocalStorage(taskGroups);
 
-          await listViewModel.loadTasks();
+          await listViewModel.loadTasksFromGroup();
 
+          expect(listViewModel.groupName, 'escola');
           expect(listViewModel.taskList.length, 2);
           expect(listViewModel.taskList[0].taskText, 'estudar historia');
           expect(listViewModel.taskList[1].taskText, 'estudar geografia');
+        },
+      );
+
+      test(
+        'Deve organizar a lista de tarefas',
+        () async {
+          final tasks = [
+            Task(id: '1', taskText: 'estudar historia', isDone: true),
+            Task(id: '2', taskText: 'estudar geografia', isDone: true),
+            Task(id: '3', taskText: 'estudar geografia'),
+          ];
+
+          taskGroups.first.tasks = tasks;
+
+          await LocalDataService.saveTaskGroupsToLocalStorage(taskGroups);
+          await listViewModel.loadTasksFromGroup();
+
+          listViewModel.sortList();
+
+          expect(listViewModel.taskList.first.isDone, false);
+          expect(listViewModel.taskList.last.isDone, true);
+
+          listViewModel.sortList();
+
+          expect(listViewModel.taskList.first.isDone, true);
+          expect(listViewModel.taskList.last.isDone, false);
         },
       );
     },

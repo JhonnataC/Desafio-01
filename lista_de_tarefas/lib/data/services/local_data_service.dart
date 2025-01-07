@@ -9,7 +9,6 @@ class LocalDataService {
 
   static Future<void> saveTaskGroupsToLocalStorage(
       List<TaskGroup> taskGroupList) async {
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     try {
@@ -51,18 +50,16 @@ class LocalDataService {
     }
   }
 
-  static Future<List<Task>> loadTasksFromGroupInLocalStorage(
+  static Future<Map<String, dynamic>> loadTasksFromGroupInLocalStorage(
       String groupId) async {
     final List<TaskGroup> taskGroups = await loadTaskGroupsFromLocalStorage();
 
-    try {
-      for (var taskGroup in taskGroups) {
-        if (taskGroup.id == groupId) return taskGroup.tasks;
+    for (var taskGroup in taskGroups) {
+      if (taskGroup.id == groupId) {
+        return {'groupName': taskGroup.name, 'tasks': taskGroup.tasks};
       }
-      return [];
-    } catch (e) {
-      return [];
     }
+    return {};
   }
 
   static String _encodeTaskGroupsToJson(List<TaskGroup> taskGroupList) {
