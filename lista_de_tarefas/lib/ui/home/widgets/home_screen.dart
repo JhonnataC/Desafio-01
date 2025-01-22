@@ -96,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (_, index) {
                                 final taskGroup = viewModel.taskGroups[index];
                                 return ListTileHome(
+                                  key: ValueKey(taskGroup.id),
                                   taskGroup: taskGroup,
                                   onEdit: () => _openForm(
                                     editValue: taskGroup.name,
@@ -124,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomFloatingActionButton(
-        label: 'Add. grupo',
+        label: 'Add. Grupo',
         onPressed: () => _openForm(
           onSubmit: viewModel.addTaskGroup,
         ),

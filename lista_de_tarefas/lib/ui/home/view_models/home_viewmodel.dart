@@ -10,7 +10,7 @@ class HomeViewModel extends ChangeNotifier {
   List<TaskGroup> _taskGroups = [];
 
   UnmodifiableListView<TaskGroup> get taskGroups =>
-      UnmodifiableListView(_taskGroups);
+      UnmodifiableListView(_taskGroups.reversed);
 
   void addTaskGroup(String name) {
     final newTaskGroup = TaskGroup(

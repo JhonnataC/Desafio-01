@@ -20,8 +20,7 @@ class ListTileListScreen extends StatefulWidget {
   });
 
   @override
-  State<ListTileListScreen> createState() =>
-      _ListTileListScreenState();
+  State<ListTileListScreen> createState() => _ListTileListScreenState();
 }
 
 class _ListTileListScreenState extends State<ListTileListScreen> {
@@ -37,34 +36,59 @@ class _ListTileListScreenState extends State<ListTileListScreen> {
           motion: const DrawerMotion(),
           extentRatio: 0.2,
           children: [
-            SlidableAction(
-              onPressed: (_) => widget.toggleTaskStatus(),
-              borderRadius: BorderRadius.circular(10),
-              spacing: 50,
-              backgroundColor: theme.colorScheme.secondary,
-              foregroundColor: theme.colorScheme.onSecondary,
-              icon: LucideIcons.checkCircle,
+            Theme(
+              data: Theme.of(context).copyWith(
+                outlinedButtonTheme: const OutlinedButtonThemeData(
+                  style: ButtonStyle(
+                    iconColor: WidgetStatePropertyAll(Colors.white),
+                  ),
+                ),
+              ),
+              child: SlidableAction(
+                onPressed: (_) => widget.toggleTaskStatus(),
+                borderRadius: BorderRadius.circular(10),
+                autoClose: true,
+                backgroundColor: theme.colorScheme.secondary,
+                icon: LucideIcons.checkCircle,
+              ),
             ),
           ],
         ),
         endActionPane: ActionPane(
+          extentRatio: 0.45,
           motion: const DrawerMotion(),
           children: [
-            SlidableAction(
-              onPressed: (_) => widget.onEdit(),
-              borderRadius: BorderRadius.circular(10),
-              spacing: 50,
-              backgroundColor: theme.colorScheme.secondary,
-              foregroundColor: theme.colorScheme.onSecondary,
-              icon: LucideIcons.edit,
+            Theme(
+              data: Theme.of(context).copyWith(
+                outlinedButtonTheme: const OutlinedButtonThemeData(
+                  style: ButtonStyle(
+                    iconColor: WidgetStatePropertyAll(Colors.white),
+                  ),
+                ),
+              ),
+              child: SlidableAction(
+                onPressed: (_) => widget.onEdit(),
+                borderRadius: BorderRadius.circular(10),
+                autoClose: true,
+                backgroundColor: theme.colorScheme.secondary,
+                icon: LucideIcons.edit,
+              ),
             ),
-            SlidableAction(
-              onPressed: (_) => widget.onDelete(),
-              spacing: 50,
-              borderRadius: BorderRadius.circular(10),
-              backgroundColor: theme.colorScheme.secondary,
-              foregroundColor: theme.colorScheme.onSecondary,
-              icon: LucideIcons.trash2,
+            Theme(
+              data: Theme.of(context).copyWith(
+                outlinedButtonTheme: const OutlinedButtonThemeData(
+                  style: ButtonStyle(
+                    iconColor: WidgetStatePropertyAll(Colors.white),
+                  ),
+                ),
+              ),
+              child: SlidableAction(
+                onPressed: (_) => widget.onDelete(),
+                borderRadius: BorderRadius.circular(10),
+                autoClose: true,
+                backgroundColor: theme.colorScheme.secondary,
+                icon: LucideIcons.trash2,
+              ),
             ),
           ],
         ),
@@ -75,7 +99,9 @@ class _ListTileListScreenState extends State<ListTileListScreen> {
             borderRadius: BorderRadius.circular(15),
           ),
           child: ListTile(
-            leading: widget.task.isDone ? const Check() : const Icon(LucideIcons.circle),
+            leading: widget.task.isDone
+                ? const Check()
+                : const Icon(LucideIcons.circle),
             title: Text(
               toBeginningOfSentenceCase(widget.task.taskText),
               style: theme.textTheme.titleSmall,

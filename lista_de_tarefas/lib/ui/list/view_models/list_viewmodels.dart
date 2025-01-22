@@ -16,7 +16,7 @@ class ListViewModel extends ChangeNotifier {
   String groupName = '';
   List<Task> _taskList = [];
 
-  UnmodifiableListView<Task> get taskList => UnmodifiableListView(_taskList);
+  UnmodifiableListView<Task> get taskList => UnmodifiableListView(_taskList.reversed);
 
   // Adiciona uma nova task
   void addTask(String taskText) {

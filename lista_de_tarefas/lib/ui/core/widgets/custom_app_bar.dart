@@ -16,6 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         'assets/imgs/logo.png',
         width: 90,
       ),
+      centerTitle: true,
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 10, top: 8),

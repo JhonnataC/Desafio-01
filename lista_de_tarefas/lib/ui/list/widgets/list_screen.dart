@@ -26,7 +26,7 @@ class _ListScreenState extends State<ListScreen> {
         return ShowFormDialogList(
           editValue: editValue,
           onSubmit: onSubmit,
-          bottomDistance: bottomDistance,
+          bottomDistance: bottomDistance, 
         );
       },
     );
@@ -114,7 +114,7 @@ class _ListScreenState extends State<ListScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomFloatingActionButton(
-        label: 'Add. tarefa',
+        label: 'Add. Tarefa',
         onPressed: () => _openForm(
           onSubmit: viewModel.addTask,
         ),

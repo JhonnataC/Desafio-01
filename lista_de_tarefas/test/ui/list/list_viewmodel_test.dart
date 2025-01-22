@@ -92,8 +92,8 @@ void main() {
 
           expect(listViewModel.groupName, 'escola');
           expect(listViewModel.taskList.length, 2);
-          expect(listViewModel.taskList[0].taskText, 'estudar historia');
-          expect(listViewModel.taskList[1].taskText, 'estudar geografia');
+          expect(listViewModel.taskList[0].taskText, 'estudar geografia');
+          expect(listViewModel.taskList[1].taskText, 'estudar historia');
         },
       );
 
@@ -103,7 +103,7 @@ void main() {
           final tasks = [
             Task(id: '1', taskText: 'estudar historia', isDone: true),
             Task(id: '2', taskText: 'estudar geografia', isDone: true),
-            Task(id: '3', taskText: 'estudar geografia'),
+            Task(id: '3', taskText: 'estudar matematica'),
           ];
 
           taskGroups.first.tasks = tasks;
@@ -113,13 +113,13 @@ void main() {
 
           listViewModel.sortList();
 
-          expect(listViewModel.taskList.first.isDone, false);
-          expect(listViewModel.taskList.last.isDone, true);
+          expect(listViewModel.taskList.first.isDone, true);
+          expect(listViewModel.taskList.last.isDone, false);
 
           listViewModel.sortList();
 
-          expect(listViewModel.taskList.first.isDone, true);
-          expect(listViewModel.taskList.last.isDone, false);
+          expect(listViewModel.taskList.first.isDone, false);
+          expect(listViewModel.taskList.last.isDone, true);
         },
       );
     },

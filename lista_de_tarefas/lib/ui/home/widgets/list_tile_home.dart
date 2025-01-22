@@ -53,24 +53,42 @@ class _ListTileHomeState extends State<ListTileHome> {
       child: Slidable(
         key: ValueKey(widget.taskGroup.id),
         endActionPane: ActionPane(
+          extentRatio: 0.45,
           motion: const DrawerMotion(),
           children: [
-            SlidableAction(
-              onPressed: (_) => widget.onEdit(),
-              borderRadius: BorderRadius.circular(10),
-              spacing: 50,
-              autoClose: true,
-              backgroundColor: theme.colorScheme.secondary,
-              // foregroundColor: theme.colorScheme.onSecondary,
-              icon: LucideIcons.edit,
+            // Envolvendo os SlidableActions em Theme pra conseguir mudar a cor dos icons
+            Theme(
+              data: Theme.of(context).copyWith(
+                outlinedButtonTheme: const OutlinedButtonThemeData(
+                  style: ButtonStyle(
+                    iconColor: WidgetStatePropertyAll(Colors.white),
+                  ),
+                ),
+              ),
+              child: SlidableAction(
+                onPressed: (_) => widget.onEdit(),
+                borderRadius: BorderRadius.circular(10),
+                autoClose: true,
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                backgroundColor: theme.colorScheme.secondary,
+                icon: LucideIcons.edit,
+              ),
             ),
-            SlidableAction(
-              onPressed: (_) => widget.onDelete(),
-              spacing: 50,
-              borderRadius: BorderRadius.circular(10),
-              backgroundColor: theme.colorScheme.secondary,
-              // foregroundColor: theme.colorScheme.onSecondary,
-              icon: LucideIcons.trash2,
+            Theme(
+              data: Theme.of(context).copyWith(
+                outlinedButtonTheme: const OutlinedButtonThemeData(
+                  style: ButtonStyle(
+                    iconColor: WidgetStatePropertyAll(Colors.white),
+                  ),
+                ),
+              ),
+              child: SlidableAction(
+                onPressed: (_) => widget.onDelete(),
+                borderRadius: BorderRadius.circular(10),
+                autoClose: true,
+                backgroundColor: theme.colorScheme.secondary,
+                icon: LucideIcons.trash2,
+              ),
             ),
           ],
         ),

@@ -25,8 +25,8 @@ void main() {
           homeViewModel.addTaskGroup('trabalho');
 
           expect(homeViewModel.taskGroups.length, 2);
-          expect(homeViewModel.taskGroups.first.name, 'escola');
-          expect(homeViewModel.taskGroups.last.name, 'trabalho');
+          expect(homeViewModel.taskGroups.first.name, 'trabalho');
+          expect(homeViewModel.taskGroups.last.name, 'escola');
         },
       );
 

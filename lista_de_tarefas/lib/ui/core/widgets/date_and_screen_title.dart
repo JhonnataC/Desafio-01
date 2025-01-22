@@ -28,7 +28,7 @@ class DateAndScreenTitle extends StatelessWidget {
           ),
           const SizedBox(height: 3),
           Text(
-            title,
+            toBeginningOfSentenceCase(title),
             style: theme.headlineLarge,
           ),
         ],
