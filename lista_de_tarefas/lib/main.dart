@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:lista_de_tarefas/routing/router.dart';
-import 'package:lista_de_tarefas/ui/core/theme/theme.dart';
+import 'package:lista_de_tarefas/src/routing/router.dart';
+import 'package:lista_de_tarefas/src/core/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

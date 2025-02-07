@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lista_de_tarefas/data/services/local_data_service.dart';
-import 'package:lista_de_tarefas/domain/models/task.dart';
-import 'package:lista_de_tarefas/domain/models/task_group.dart';
-import 'package:lista_de_tarefas/ui/home/view_models/home_viewmodel.dart';
+import 'package:lista_de_tarefas/src/data/services/local_data_service.dart';
+import 'package:lista_de_tarefas/src/domain/models/task.dart';
+import 'package:lista_de_tarefas/src/domain/models/task_group.dart';
+import 'package:lista_de_tarefas/src/ui/home/view_models/home_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
